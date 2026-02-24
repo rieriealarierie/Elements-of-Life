@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="title" content="Elements of Life – Built with AI on biela.dev">
+    <meta name="description" content="Explore Elements of Life, an AI-built educational game created on biela.dev using smart prompts and no code. Learn chemical elements through fun gameplay!">
+    <title>Elements of Life - لعبة العناصر الكيميائية</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚗️</text></svg>">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Main Menu Screen -->
+    <div id="main-menu" class="screen active">
+        <div class="nature-bg"></div>
+        <div class="menu-content">
+            <img src="https://content-studio.biela.dev/content-studio/699dd717cd38443b9f75872f/1771954073081-699dd717cd38443b9f75872f/1771954105791-2a5e274e.jpeg" alt="Elements of Life Logo" class="game-logo">
+            <div class="zari-container">
+                <div class="zari-character">
+                    <div class="zari-body"></div>
+                    <div class="zari-face">
+                        <div class="zari-eyes">
+                            <div class="eye"></div>
+                            <div class="eye"></div>
+                        </div>
+                        <div class="zari-mouth"></div>
+                    </div>
+                    <div class="zari-electrons">
+                        <div class="electron"></div>
+                        <div class="electron"></div>
+                        <div class="electron"></div>
+                    </div>
+                </div>
+                <div class="speech-bubble">
+                    <p>مرحباً! أنا <strong>ذرّي</strong>! 🌟<br>هل أنت مستعد لاكتشاف عالم العناصر الكيميائية؟</p>
+                </div>
+            </div>
+            <div class="menu-buttons">
+                <button id="start-btn" class="pixel-btn primary">🎮 ابدأ اللعب</button>
+                <button id="library-btn" class="pixel-btn secondary">📚 مكتبة البطاقات</button>
+                <button id="quiz-btn" class="pixel-btn quiz" disabled>📝 الاختبار</button>
+            </div>
+            <div class="progress-bar-container">
+                <div class="progress-label">البطاقات المجمعة: <span id="card-count">0</span>/10</div>
+                <div class="progress-bar">
+                    <div id="progress-fill" class="progress-fill"></div>
+                </div>
+                <div class="points-display">النقاط: <span id="total-points">0</span> ⭐</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Game Screen -->
+    <div id="game-screen" class="screen">
+        <div class="game-header">
+            <button id="back-to-menu" class="pixel-btn small">🏠 القائمة</button>
+            <div class="game-stats">
+                <span class="lives">❤️ <span id="lives">3</span></span>
+                <span class="score">⭐ <span id="score">0</span></span>
+            </div>
+        </div>
+        <div class="zari-guide">
+            <div class="zari-mini"></div>
+            <div class="guide-text" id="guide-text">تجنب العقبات واجمع العنصر! 🎯</div>
+        </div>
+        <div id="game-arena">
+            <canvas id="game-canvas"></canvas>
+        </div>
+        <div class="game-controls">
+            <div class="control-row">
+                <button class="control-btn" data-dir="up">⬆️</button>
+            </div>
+            <div class="control-row">
+                <button class="control-btn" data-dir="left">⬅️</button>
+                <button class="control-btn" data-dir="down">⬇️</button>
+                <button class="control-btn" data-dir="right">➡️</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Card Library Screen -->
+    <div id="library-screen" class="screen">
+        <div class="library-header">
+            <button id="library-back" class="pixel-btn small">🏠 القائمة</button>
+            <h2>📚 مكتبة البطاقات</h2>
+        </div>
+        <div id="cards-grid" class="cards-grid"></div>
+        <div id="empty-library" class="empty-message">
+            <p>لم تجمع أي بطاقات بعد! 🔬</p>
+            <p>العب وفز لتحصل على بطاقات العناصر</p>
+        </div>
+    </div>
+
+    <!-- Card Reveal Modal -->
+    <div id="card-modal" class="modal">
+        <div class="modal-content card-reveal">
+            <div class="confetti"></div>
+            <h2>🎉 أحسنت! حصلت على بطاقة جديدة!</h2>
+            <div id="new-card" class="element-card large"></div>
+            <button id="close-card-modal" class="pixel-btn primary">استمر ▶️</button>
+        </div>
+    </div>
+
+    <!-- Quiz Screen -->
+    <div id="quiz-screen" class="screen">
+        <div class="quiz-header">
+            <button id="quiz-back" class="pixel-btn small">🏠 القائمة</button>
+            <h2>📝 اختبار العناصر</h2>
+            <div class="quiz-progress">السؤال <span id="q-num">1</span>/5</div>
+        </div>
+        <div class="quiz-container">
+            <div class="zari-quiz">
+                <div class="zari-mini thinking"></div>
+                <div id="quiz-zari-text" class="guide-text">هيا نختبر معلوماتك! 🧪</div>
+            </div>
+            <div id="quiz-question" class="quiz-question"></div>
+            <div id="quiz-options" class="quiz-options"></div>
+        </div>
+    </div>
+
+    <!-- Quiz Result Modal -->
+    <div id="result-modal" class="modal">
+        <div class="modal-content result">
+            <div id="result-icon" class="result-icon"></div>
+            <h2 id="result-title"></h2>
+            <p id="result-message"></p>
+            <div id="badge-earned" class="badge-container"></div>
+            <button id="close-result" class="pixel-btn primary">العودة للقائمة</button>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="game-footer">
+        <p>AI vibe coded development by <a href="https://biela.dev/" target="_blank">Biela.dev</a>, powered by <a href="https://teachmecode.ae/" target="_blank">TeachMeCode® Institute</a></p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
