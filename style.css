@@ -32,6 +32,7 @@ body {
     display: none;
     min-height: 100vh;
     padding: 1rem;
+    padding-bottom: 3.5rem;
 }
 
 .screen.active {
@@ -442,6 +443,7 @@ body {
     display: block;
     border-radius: 10px;
     image-rendering: pixelated;
+    max-width: 100%;
 }
 
 .game-controls {
@@ -502,7 +504,7 @@ body {
     grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
     gap: 1rem;
     width: 100%;
-    max-width: 800px;
+    max-width: 900px;
     padding: 1rem;
 }
 
@@ -517,6 +519,7 @@ body {
     border: 3px solid;
     transition: transform 0.3s, box-shadow 0.3s;
     cursor: pointer;
+    position: relative;
 }
 
 .element-card:hover {
@@ -585,6 +588,18 @@ body {
 
 .element-card.metalloid { border-color: #F06595; }
 .element-card.metalloid .symbol { color: #F06595; }
+
+.element-card.halogen { border-color: #FF922B; }
+.element-card.halogen .symbol { color: #FF922B; }
+
+.element-card.post-transition { border-color: #38D9A9; }
+.element-card.post-transition .symbol { color: #38D9A9; }
+
+.element-card.lanthanide { border-color: #E599F7; }
+.element-card.lanthanide .symbol { color: #E599F7; }
+
+.element-card.actinide { border-color: #F783AC; }
+.element-card.actinide .symbol { color: #F783AC; }
 
 .empty-message {
     text-align: center;
@@ -669,6 +684,78 @@ body {
     100% { top: 100%; opacity: 0; }
 }
 
+/* Quiz Level Selection */
+#quiz-level-screen {
+    background: linear-gradient(180deg, #FFF8E1 0%, #FFECB3 100%);
+}
+
+.quiz-level-container {
+    width: 100%;
+    max-width: 500px;
+}
+
+.levels-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.level-card {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    background: white;
+    padding: 1.2rem 1.5rem;
+    border-radius: 15px;
+    border: 3px solid #ddd;
+    cursor: pointer;
+    transition: all 0.3s;
+    text-align: right;
+    width: 100%;
+    font-family: 'Cairo', sans-serif;
+}
+
+.level-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+}
+
+.level-card.easy { border-color: #69DB7C; }
+.level-card.easy:hover { background: #f0fff4; }
+
+.level-card.medium { border-color: #FFC107; }
+.level-card.medium:hover { background: #fffde7; }
+
+.level-card.hard { border-color: #f44336; }
+.level-card.hard:hover { background: #fff5f5; }
+
+.level-icon {
+    font-size: 2.5rem;
+    flex-shrink: 0;
+}
+
+.level-info h3 {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: #333;
+    margin-bottom: 0.2rem;
+}
+
+.level-info p {
+    font-size: 0.95rem;
+    color: #666;
+    line-height: 1.4;
+}
+
+.level-detail {
+    display: inline-block;
+    margin-top: 0.3rem;
+    font-size: 0.85rem;
+    color: #999;
+    font-weight: 600;
+}
+
 /* Quiz */
 #quiz-screen {
     background: linear-gradient(180deg, #FFF8E1 0%, #FFECB3 100%);
@@ -679,12 +766,33 @@ body {
     max-width: 600px;
 }
 
+.quiz-meta {
+    display: flex;
+    gap: 0.8rem;
+    align-items: center;
+}
+
 .quiz-progress {
     background: var(--accent);
     padding: 0.5rem 1rem;
     border-radius: 20px;
     font-weight: 700;
     color: #333;
+}
+
+.quiz-timer {
+    background: var(--danger);
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-weight: 700;
+    font-size: 1rem;
+    animation: timer-pulse 1s infinite;
+}
+
+@keyframes timer-pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.7; }
 }
 
 .quiz-question {
@@ -714,6 +822,8 @@ body {
     cursor: pointer;
     border: 3px solid #ddd;
     transition: all 0.2s;
+    font-family: 'Cairo', sans-serif;
+    text-align: right;
 }
 
 .quiz-option:hover {
@@ -777,12 +887,13 @@ body {
     bottom: 0;
     left: 0;
     width: 100%;
-    background: rgba(0,0,0,0.1);
+    background: rgba(255,255,255,0.85);
     padding: 0.5rem;
     text-align: center;
     font-size: 0.85rem;
     color: #555;
     backdrop-filter: blur(5px);
+    z-index: 10;
 }
 
 .game-footer a {
@@ -821,6 +932,15 @@ body {
     }
     .cards-grid {
         grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    }
+    .level-card {
+        padding: 1rem;
+    }
+    .level-icon {
+        font-size: 2rem;
+    }
+    .level-info h3 {
+        font-size: 1.1rem;
     }
 }
 
